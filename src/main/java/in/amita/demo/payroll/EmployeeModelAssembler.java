@@ -3,6 +3,7 @@ package in.amita.demo.payroll;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Component
 public class EmployeeModelAssembler implements RepresentationModelAssembler<Employee, EntityModel<Employee>> {
     @Override
     public EntityModel<Employee> toModel(Employee employee) {

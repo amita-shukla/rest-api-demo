@@ -1,4 +1,4 @@
-package in.amita.demo.payroll;
+package in.amita.demo.payroll.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,9 @@
-package in.amita.demo.payroll;
+package in.amita.demo.payroll.controller;
 
+import in.amita.demo.payroll.dto.Employee;
+import in.amita.demo.payroll.modelAssesmbler.EmployeeModelAssembler;
+import in.amita.demo.payroll.exception.EmployeeNotFoundException;
+import in.amita.demo.payroll.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -23,20 +27,20 @@ public class EmployeeController {
     EmployeeModelAssembler assembler;
 
     @GetMapping("/employees")
-    ResponseEntity<CollectionModel<EntityModel<Employee>>> all() {
+    public ResponseEntity<CollectionModel<EntityModel<Employee>>> all() {
         List<Employee> employees = repository.findAll();
         return ResponseEntity.ok(assembler.toCollectionModel(employees));
     }
 
     @PostMapping("/employees")
-    ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee newEmployee) {
+    public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee newEmployee) {
         EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
     }
 
     @GetMapping("/employees/{id}")
-    ResponseEntity<EntityModel<Employee>> getEmployee(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<Employee>> getEmployee(@PathVariable Long id) {
         Employee emp = repository.findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, new EmployeeNotFoundException(id).getMessage()));
@@ -45,7 +49,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    ResponseEntity<EntityModel<Employee>> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    public ResponseEntity<EntityModel<Employee>> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
         Employee employee = repository.findById(id)
                 .map(e -> {
                     e.setName(newEmployee.getName());
@@ -61,7 +65,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
-    ResponseEntity<Object> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

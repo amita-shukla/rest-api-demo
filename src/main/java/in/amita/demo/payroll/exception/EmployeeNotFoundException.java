@@ -1,7 +1,7 @@
-package in.amita.demo.payroll;
+package in.amita.demo.payroll.exception;
 
 public class EmployeeNotFoundException extends RuntimeException{
-    EmployeeNotFoundException(Long id){
+    public EmployeeNotFoundException(Long id){
         super("Couldn't find employee " + id);
     }
 }
